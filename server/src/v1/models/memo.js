@@ -12,10 +12,18 @@ const memoSchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    default: "無題",
+  },
+  description: {
+    type: String,
     default: "ここに自由に記入して下さい。",
+  },
+  position: {
+    type: Number,
   },
   favoritePosition: {
     type: Number,
+    default: 0,
   },
 });
 

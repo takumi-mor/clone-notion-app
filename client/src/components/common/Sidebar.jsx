@@ -11,16 +11,35 @@ import LogoutOutLinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import assets from "../../assets";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import memoApi from "../../api/memoApi";
+import setMemo from "../../redux/features/memoSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
+  const memos = useSelector((state) => state.memo.value);
 
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
+  useEffect(() => {
+    const getMemos = async () => {
+      try {
+        const res = await memoApi.getAll();
+        console.log(res);
+        dispatch(setMemo(res));
+        console.log(memos);
+      } catch (err) {
+        alert(err);
+      }
+    };
+    getMemos();
+  }, [dispatch]);
 
   return (
     <Drawer
