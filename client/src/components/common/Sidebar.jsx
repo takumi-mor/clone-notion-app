@@ -10,7 +10,7 @@ import React from "react";
 import LogoutOutLinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import assets from "../../assets";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import memoApi from "../../api/memoApi";
@@ -39,7 +39,7 @@ const Sidebar = () => {
       }
     };
     getMemos();
-  }, [dispatch]);
+  }, [dispatch, memos]);
 
   return (
     <Drawer
@@ -106,15 +106,18 @@ const Sidebar = () => {
             </IconButton>
           </Box>
         </ListItemButton>
-        <ListItemButton sx={{ pl: "20px" }}>
-          <Typography>📝借りおきのメモ</Typography>
-        </ListItemButton>
-        <ListItemButton sx={{ pl: "20px" }}>
-          <Typography>📝借りおきのメモ</Typography>
-        </ListItemButton>
-        <ListItemButton sx={{ pl: "20px" }}>
-          <Typography>📝借りおきのメモ</Typography>
-        </ListItemButton>
+        {memos.map((item, index) => (
+          <ListItemButton
+            sx={{ pl: "20px" }}
+            component={Link}
+            to={`/memo/${item._id}`}
+            key={item._id}
+          >
+            <Typography>
+              {item.icon} {item.title}
+            </Typography>
+          </ListItemButton>
+        ))}
       </List>
     </Drawer>
   );
